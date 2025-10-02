@@ -135,8 +135,12 @@ Visit localhost:8080 to see the Hello World welcome page.
 
 # Cleanup
 
+[Guidance from layout.md: All tutorials should ideally be deployed through infrastructure as code (IaC), if applicable.  All resources deployed by the tutorial should be removed. It is our responsibility to help and provide guidance to the user on how to remove all resources. Sometimes this section is brief with a simple command such as `terraform destroy -auto-approve`]: #
+
 [TODO: are there any cleanup steps?]: #
 
 # Next Steps
 
-[TODO: Add actual next steps. Original text did not contain any next steps.]: #
+[Guidance from layout.md: This section summarizes the key learning concepts and the actions the practitioner conducted. Additionally, this section should link to or suggest the next set of topics that the practitioner can dive into.]: #
+
+[Original text provided a kind of summary, but, to me, it's strange to see that under the title "Next steps". I would add some actual next steps, but I don't know what these are. TODO]: #
