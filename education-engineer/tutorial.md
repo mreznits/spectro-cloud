@@ -5,6 +5,8 @@
 [TODO: ... cloud environment, such as AWS or Azure?]: #
 [Kubernetes](https://kubernetes.io/) is an orchestration platform for deploying containerized applications. Kubernetes production clusters are typically in a cloud environment. 
 
+[TODO: Define Docker / Docker image]: #
+
 [TODO: Various sources describe the technology as Kind, KinD, or kind. Original tutorial used "kind" in the text, but "Kind" in the title. Which one should I use?]: # 
 [Kubernetes-in-Docker (Kind)](https://kind.sigs.k8s.io/) is a command-line tool that enables developers to create a local Kubernetes cluster using docker images. Local deployment avoids the operational overhead of a full-blown cluster, allows for easy and efficient testing, and accelerates productivity.
 
@@ -12,7 +14,6 @@ This tutorial demonstrates how you can use Kind and Kubernetes to configure, dep
 
 # Prerequisites
 
-[TODO: What is Docker?]: #
 Install Docker from https://docs.docker.com/install/ and install Kind from https://kind.sigs.k8s.io/.
 
 Start Kind with the command `kind create cluster` and wait for the setup to complete.
@@ -37,7 +38,8 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-Use the CLI to check for connectivity with the Kubernetes cluster and the Kubernetes API.
+[Based on the output above, the kubectl cluster-info command is not for _checking_ for connectivity between the cluster and the API, but for _establishing_ the connectivity. TODO: verify]: #
+To check for connectivity with the Kubernetes cluster and the Kubernetes API, use the following command:
 
 ```
 $ kubectl cluster-info --context kind-kind
@@ -105,7 +107,7 @@ The configuration file for the application *web* contains a *Deployment* configu
 
 [Note: this is local deployment (i.e. not to AWS / Azure)]: #
 
-Deploy the application, *web*, using the following command.
+To deploy the application *web*, use the following command:
 
 ```shell
 $ kubectl apply -f app.yaml
@@ -115,13 +117,13 @@ $ kubectl apply -f app.yaml
 
 To access the application, get the container name and use port forwarding to expose the container port to the local network.
 
-To get the container name, issue the following command:
+To get the container name, use the following command:
 
 ```shell
 $ PODNAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{end}}' --selector=app=web)
 ```
 
-Now that you have the container name, expose the port to the local network.
+To expose the port to the local network, use the following command:
 ```
 $ kubectl port-forward $PODNAME 8080:8080
 ```
@@ -131,7 +133,7 @@ Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
 
-Visit localhost:8080 to see the Hello World welcome page.
+Visit localhost:8080 to see the application's Hello World welcome page.
 
 # Cleanup
 
