@@ -19,6 +19,9 @@ Start Kind with the command `kind create cluster` and wait for the setup to comp
 
 ```
 $ kind create cluster
+```
+
+```
 Creating cluster "kind" ...
  ✓ Ensuring node image (kindest/node:v1.25.3) 🖼
  ✓ Preparing nodes 📦
