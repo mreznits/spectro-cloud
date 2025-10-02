@@ -21,7 +21,7 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-You should check for connectivity with the Kubernete cluster and the Kubernetes API. A good way to test for connectivity to the cluster and the Kubernetes API is by using the CLI.
+You should check for connectivity with the Kubernetes cluster and the Kubernetes API. A good way to test for connectivity to the cluster and the Kubernetes API is by using the CLI.
 
 ```
 $ kubectl cluster-info --context kind-kind
