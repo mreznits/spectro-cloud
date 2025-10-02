@@ -48,7 +48,7 @@ You should see output that contains the control plane IP address and more.
 
 [TODO: insert output here]: #
 
-## Create Configuration File
+# Create Configuration File
 
 Create a file named **app.yaml** and insert the following configuration. 
 
@@ -101,7 +101,7 @@ status:
 
 The configuration file for the application *web* contains a *Deployment* configuration and a *Service* configuration. The *Deployment* configuration provides Kubernetes with the desired state of the application. The *Service* configuration exposes a port of the local cluster node (*NodePort*) to its external network, allowing you to access the application.
 
-## Deploy Application
+# Deploy Application
 
 [Note: this is local deployment (i.e. not to AWS / Azure)]: #
 
@@ -111,7 +111,7 @@ Deploy the application, *web*, using the following command.
 $ kubectl apply -f app.yaml
 ```
 
-## Access Application
+# Access Application
 
 To access the application, get the container name and use port forwarding to expose the container port to the local network.
 
