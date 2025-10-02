@@ -1,8 +1,21 @@
-# Deploy Applications with Kind
+[Original title ("deploy ... with Kind") is not meaningful to a user who is unfamiliar with Kind. What is an actual problem that this tutorial can help users solve?]: #
 
-Kubernetes is a popular orchestration platform that is used by many organizations to deploy applications. We can use [kind](https://kind.sigs.k8s.io/) to gain practice with kubernetes. Let's deploy an application with kind to see how it works. Start by installing kind from https://kind.sigs.k8s.io/. Be aware that you will need to have Docker installed locally.
+# Deploy an Application to a Local Kubernetes Cluster
 
-Start kind with the command `kind create cluster` and wait for the setup to complete.
+[TODO: ... cloud environment, such as AWS or Azure?]: #
+[Kubernetes](https://kubernetes.io/) is an orchestration platform for deploying containerized applications. Kubernetes production clusters are typically in a cloud environment. 
+
+[TODO: Various sources describe the technology as Kind, KinD, or kind. Original tutorial used "kind" in the text, but "Kind" in the title. Which one should I use?]: # 
+[Kubernetes-in-Docker (Kind)](https://kind.sigs.k8s.io/) is a command-line tool that enables developers to create a local Kubernetes cluster using docker images. Local deployment avoids the operational overhead of a full-blown cluster, allows for easy and efficient testing, and accelerates productivity.
+
+This tutorial demonstrates how you can use Kind and Kubernetes to configure, deploy, and access a local application. 
+
+# Prerequisites
+
+[TODO: What is Docker?]: #
+Install Docker from https://docs.docker.com/install/ and install Kind from https://kind.sigs.k8s.io/.
+
+Start Kind with the command `kind create cluster` and wait for the setup to complete.
 
 ```
 $ kind create cluster
@@ -21,15 +34,18 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-You should check for connectivity with the Kubernetes cluster and the Kubernetes API. A good way to test for connectivity to the cluster and the Kubernetes API is by using the CLI.
+Use the CLI to check for connectivity with the Kubernetes cluster and the Kubernetes API.
 
 ```
 $ kubectl cluster-info --context kind-kind
 ```
 
+[TODO: rewrite, esp "should" and "and more"]: #
 You should see output that contains the control plane IP address and more. 
 
-## Deploy Application
+[TODO: insert output here]: #
+
+## Create Configuration File
 
 Create a file named **app.yaml** and insert the following configuration. 
 
@@ -78,15 +94,23 @@ status:
   loadBalancer: {}
 ```
 
-The configuration file contains a *deployment* configuration and a *service*. We use the deployment to inform Kubernetes the desired state we want for the application. The application, *web*, also has a service definition that exposes the port of the local cluster node to its external Azure network. The exposed *nodePort* is how you will access the application.
+["to its external Azure network"? Removed reference to Azure. AFAIK, we are not necessarily working with Azure.]: #
 
-Next, deploy the application.
+The configuration file for the application *web* contains a *Deployment* configuration and a *Service* configuration. The *Deployment* configuration provides Kubernetes with the desired state of the application. The *Service* configuration exposes a port of the local cluster node (*NodePort*) to its external network, allowing you to access the application.
+
+## Deploy Application
+
+[Note: this is local deployment (i.e. not to AWS / Azure)]: #
+
+Deploy the application, *web*, using the following command.
 
 ```shell
 $ kubectl apply -f app.yaml
 ```
 
-Now that the application, web, is deployed we can access the application by exposing the nodePort through port forwarding. However, to port forward the container port the container name is required.
+## Access Application
+
+To access the application, get the container name and use port forwarding to expose the container port to the local network.
 
 To get the container name, issue the following command:
 
@@ -94,17 +118,19 @@ To get the container name, issue the following command:
 $ PODNAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{end}}' --selector=app=web)
 ```
 
-Now that you have the container name, start the port forwarding with the container to expose the port to the local network.
+Now that you have the container name, expose the port to the local network.
 ```
 $ kubectl port-forward $PODNAME 8080:8080
 Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
 
-If you visit localhost:8080 you will see the Hello World welcome page.
+Visit localhost:8080 to see the Hello World welcome page.
+
+# Cleanup
+
+[TODO: are there any cleanup steps?]: #
 
 # Next Steps
 
-As mentioned before Kubernetes is an orchestration platform used to deploy containerized applications. We hope you now better understand how one can deploy applications to Kubernetes and AWS. 
-
-
+[TODO: Add actual next steps. Original text did not contain any next steps.]: #
