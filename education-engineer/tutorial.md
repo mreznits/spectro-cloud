@@ -121,6 +121,9 @@ $ PODNAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{end
 Now that you have the container name, expose the port to the local network.
 ```
 $ kubectl port-forward $PODNAME 8080:8080
+```
+
+```
 Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
