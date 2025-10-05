@@ -147,7 +147,7 @@ Hostname: web-769bbccc48-v7ctx
 ```
 
 When you access localhost:8080, the command output prints the following:
-```shell
+```
 Handling connection for 8080
 ```
 
