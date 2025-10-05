@@ -1,14 +1,12 @@
-[Original title ("deploy ... with Kind") is not meaningful to a user who is unfamiliar with Kind. What is an actual problem that this tutorial can help users solve?]: #
-
 # Deploy an Application to a Local Kubernetes Cluster
 
+[Kubernetes](https://kubernetes.io/) is an orchestration platform for deploying containerized applications. A Kubernetes cluster consists of a control plane plus a set of worker machines, called nodes. These nodes can be physical machines in a datacenter or virtual machines hosted on a cloud provider. When you deploy a program to a cluster, Kubernetes intelligently distributes work to the individual nodes for you.
+
+Applications running on Kubernetes are packaged as containers. A container hosts the application code and all the dependencies that the app requires to run properly. Containers, in turn, are organized into pods, allowing them to share the same resources and local network. A single node can run one or more pods. 
+
 [TODO: ... cloud environment, such as AWS or Azure?]: #
-[Kubernetes](https://kubernetes.io/) is an orchestration platform for deploying containerized applications. Kubernetes production clusters are typically in a cloud environment. 
-
-[TODO: Define Docker / Docker image]: #
-
 [TODO: Various sources describe the technology as Kind, KinD, or kind. Original tutorial used "kind" in the text, but "Kind" in the title. Which one should I use?]: # 
-[Kubernetes-in-Docker (Kind)](https://kind.sigs.k8s.io/) is a command-line tool that enables developers to create a local Kubernetes cluster using docker images. Local deployment avoids the operational overhead of a full-blown cluster, allows for easy and efficient testing, and accelerates productivity.
+Although Kubernetes production clusters are typically hosted in a cloud environment, it is possible to create a Kubernetes cluster locally using the [Kubernetes-in-Docker (Kind)](https://kind.sigs.k8s.io/) command-line tool. Local deployment avoids the operational overhead of a full-blown cluster, allows for easy and efficient testing, and accelerates productivity.
 
 This tutorial demonstrates how you can use Kind and Kubernetes to configure, deploy, and access a local application. 
 
@@ -18,11 +16,11 @@ Install Docker from https://docs.docker.com/install/ and install Kind from https
 
 Start Kind with the command `kind create cluster` and wait for the setup to complete.
 
-```
+```shell
 $ kind create cluster
 ```
 
-```
+```shell
 Creating cluster "kind" ...
  ✓ Ensuring node image (kindest/node:v1.25.3) 🖼
  ✓ Preparing nodes 📦
@@ -38,17 +36,21 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-[Based on the output above, the kubectl cluster-info command is not for _checking_ for connectivity between the cluster and the API, but for _establishing_ the connectivity. TODO: verify]: #
+[TODO: Consider labelling this step as optional.]: #
 To check for connectivity with the Kubernetes cluster and the Kubernetes API, use the following command:
 
-```
+```shell
 $ kubectl cluster-info --context kind-kind
 ```
 
-[TODO: rewrite, esp "should" and "and more"]: #
-You should see output that contains the control plane IP address and more. 
+The command output contains the control plane IP:
 
-[TODO: insert output here]: #
+```shell
+Kubernetes control plane is running at https://127.0.0.1:51033
+CoreDNS is running at https://127.0.0.1:51033/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+```
 
 # Create Configuration File
 
@@ -99,13 +101,9 @@ status:
   loadBalancer: {}
 ```
 
-["to its external Azure network"? Removed reference to Azure. AFAIK, we are not necessarily working with Azure.]: #
-
 The configuration file for the application *web* contains a *Deployment* configuration and a *Service* configuration. The *Deployment* configuration provides Kubernetes with the desired state of the application. The *Service* configuration exposes a port of the local cluster node (*NodePort*) to its external network, allowing you to access the application.
 
 # Deploy Application
-
-[Note: this is local deployment (i.e. not to AWS / Azure)]: #
 
 To deploy the application *web*, use the following command:
 
@@ -113,36 +111,60 @@ To deploy the application *web*, use the following command:
 $ kubectl apply -f app.yaml
 ```
 
+```shell
+deployment.apps/web created
+service/web created
+```
+
 # Access Application
 
 To access the application, get the container name and use port forwarding to expose the container port to the local network.
 
-To get the container name, use the following command:
+[TODO: In Windows PowerShell, assigning the PODNAME variable requires $PODNAME=... I hesitate to update this without testing in Linux. Possibly two versions of the command might need to be provided here.]: #
 
+To get the container name, use the following command:
 ```shell
 $ PODNAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{end}}' --selector=app=web)
 ```
 
+The container name has the following format: `web-769bbccc48-v7ctx`.
+
 To expose the port to the local network, use the following command:
-```
+```shell
 $ kubectl port-forward $PODNAME 8080:8080
 ```
 
-```
+```shell
 Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
 
-Visit localhost:8080 to see the application's Hello World welcome page.
+Visit localhost:8080 to see the application's Hello World welcome page:
+```
+Hello, world!
+Version: 1.0.0
+Hostname: web-769bbccc48-v7ctx
+```
+
+When you access localhost:8080, the command output prints the following:
+```shell
+Handling connection for 8080
+```
 
 # Cleanup
 
-[Guidance from layout.md: All tutorials should ideally be deployed through infrastructure as code (IaC), if applicable.  All resources deployed by the tutorial should be removed. It is our responsibility to help and provide guidance to the user on how to remove all resources. Sometimes this section is brief with a simple command such as `terraform destroy -auto-approve`]: #
+To delete the cluster, use the following command:
+```shell
+$ kind delete cluster
+```
 
-[TODO: are there any cleanup steps?]: #
+```shell
+Deleting cluster "kind" ...
+Deleted nodes: ["kind-control-plane"]
+```
 
 # Next Steps
 
-[Guidance from layout.md: This section summarizes the key learning concepts and the actions the practitioner conducted. Additionally, this section should link to or suggest the next set of topics that the practitioner can dive into.]: #
+This tutorial demonstrated how you can use Kind and Kubernetes to create a local cluster and deploy an application.
 
-[Original text provided a kind of summary, but, to me, it's strange to see that under the title "Next steps". I would add some actual next steps, but I don't know what these are. TODO]: #
+To learn how to use Spectro Cloud Palette to deploy a cluster to Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), see [Palette Getting Started](https://docs.spectrocloud.com/tutorials/getting-started/palette/).
