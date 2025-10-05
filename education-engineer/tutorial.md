@@ -20,7 +20,7 @@ Start Kind with the command `kind create cluster` and wait for the setup to comp
 $ kind create cluster
 ```
 
-```shell
+```
 Creating cluster "kind" ...
  ✓ Ensuring node image (kindest/node:v1.25.3) 🖼
  ✓ Preparing nodes 📦
@@ -45,7 +45,7 @@ $ kubectl cluster-info --context kind-kind
 
 The command output contains the control plane IP:
 
-```shell
+```
 Kubernetes control plane is running at https://127.0.0.1:51033
 CoreDNS is running at https://127.0.0.1:51033/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
@@ -111,7 +111,7 @@ To deploy the application *web*, use the following command:
 $ kubectl apply -f app.yaml
 ```
 
-```shell
+```
 deployment.apps/web created
 service/web created
 ```
@@ -134,7 +134,7 @@ To expose the port to the local network, use the following command:
 $ kubectl port-forward $PODNAME 8080:8080
 ```
 
-```shell
+```
 Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
@@ -158,7 +158,7 @@ To delete the cluster, use the following command:
 $ kind delete cluster
 ```
 
-```shell
+```
 Deleting cluster "kind" ...
 Deleted nodes: ["kind-control-plane"]
 ```
