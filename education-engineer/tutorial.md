@@ -167,4 +167,4 @@ Deleted nodes: ["kind-control-plane"]
 
 This tutorial demonstrated how you can use Kind and Kubernetes to create a local cluster and deploy an application.
 
-To learn how to use Spectro Cloud Palette to deploy a cluster to Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), see [Palette Getting Started](https://docs.spectrocloud.com/tutorials/getting-started/palette/).
+To learn how to use Spectro Cloud Palette to deploy a cluster to Amazon Web Services (AWS), Microsoft Azure, or Google Cloud Platform (GCP), see [Palette Getting Started](https://docs.spectrocloud.com/tutorials/getting-started/palette/).
